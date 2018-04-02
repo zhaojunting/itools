@@ -4,7 +4,7 @@ import jting.zhao.sorttest.QuickSort;
 
 /**
  * @ClassName: BinarySearch
- * @Description: (这里用一句话描述这个类的作用)
+ * @Description: (二分法查找)
  * @Author: zhaojt
  * @Date: 2018/3/12 16:12
  * Inc.All rights reserved.

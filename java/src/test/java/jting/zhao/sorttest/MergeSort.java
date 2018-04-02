@@ -1,78 +1,76 @@
 package jting.zhao.sorttest;
 
 /**
- * Created by tianxin on 2018/3/8.
+ * @ClassName: MergeSort
+ * @Description: (这里用一句话描述这个类的作用)
+ * @Author: zhaojt
+ * @Date: 2018/3/9 15:26
+ * Inc.All rights reserved.
  */
 public class MergeSort {
-    public static int[] sort(int[] arr) {
-        if (arr != null && arr.length > 0) {
-            spilt(arr, 0, arr.length - 1);
-        }
-        return arr;
-    }
 
-    public static void spilt(int[] arr, int left, int right) {
-        if (left < right) {
-            int mid = (right - left + 1) / 2 + left;
-            if (mid == right) {
-                int temp;
-                if (arr[left]>arr[right]) {
-                    temp = arr[left];
-                    arr[left] = arr[right];
-                    arr[right] = temp;
-                }
-                return;
-            }
-            spilt(arr, left, mid);
-            spilt(arr, mid + 1, right);
-            merge(arr, left, mid, right);
+    int maxDeep = 3;//定义最大深度
+
+    public static void main(String[] args) {
+        for(int i = 0; i < 100; i++) {
+            int[] arr = QuickSort.randomArr();//
+
+            QuickSort.print(arr);
+
+            mergeSort(arr, 0, arr.length - 1, 0);
+
+            QuickSort.print(arr);
+
+            System.out.println("--------------------------------------------------------");
         }
 
     }
 
-    public static void merge(int[] arr, int left, int mid, int right) {
-        int l = mid - left + 1;
-        int r = right - mid;
-        int[] L = new int[l];
-        int[] R = new int[r];
-        int temp = left;
-        int i = 0;
-        int j = 0;
-
-        for (int k = 0; k < l; k++) {
-            L[k] = arr[left + k];
+    public static void mergeSort(int[] arr, int left, int right, int curDeep){
+        //排序
+        if((right - left) == 0){
+            return;
         }
-        for (int k = 0; k < r; k++) {
-            R[k] = arr[mid + 1 + k];
-        }
-
-        while (i < l && j < r) {
-            if (L[i] < R[j]) {
-                arr[temp] = L[i];
-                temp++;
-                i++;
-            } else {
-                arr[temp] = R[j];
-                temp++;
-                j++;
+        if((right - left) == 1){
+            if(arr[left] > arr[right]) {
+                QuickSort.swap(arr, left, right);
+                QuickSort.print(arr);
             }
-
+            return;
         }
 
+        //分治
+        int i = (left + right) / 2;
+        int j = left;
+        int k = i + 1;
+        mergeSort(arr, left, i , curDeep + 1 );
+        mergeSort(arr, i + 1, right, curDeep + 1 );
 
-        while (i < l) {
-            arr[temp] = L[i];
-            temp++;
-            i++;
+        //合并
+        int tmp[] = new int[right - left + 1];
+        int tmpIdx = 0;
+        for(;j <= i;){
+            if(k > right){
+                tmp[tmpIdx++] = arr[j++];
+                continue;
+            }
+            if(arr[j] > arr[k]){
+                tmp[tmpIdx++] = arr[k++];
+            }else if(arr[j] == arr[k]){
+                tmp[tmpIdx++] = arr[k++];
+                tmp[tmpIdx++] = arr[j++];
+            }else{
+                tmp[tmpIdx++] = arr[j++];
+            }
+        }
+        for(;k <= right;){
+            tmp[tmpIdx++] = arr[k++];
         }
 
-
-        while (j < r) {
-            arr[temp] = R[j];
-            temp++;
-            j++;
-
+        //交换
+        for(int a = 0; a < tmp.length; a++){
+            arr[left++] = tmp[a];
         }
-
+        QuickSort.print(arr);
     }
 }

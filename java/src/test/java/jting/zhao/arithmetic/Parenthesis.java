@@ -12,6 +12,29 @@ import java.util.List;
  */
 public class Parenthesis {
 
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        //System.out.println("012142");
+        int  n = 4;
+        char[] cs = new char[2 * n];
+        printParenthesis(0, n, 0, 0, cs);  //copy
+
+        //System.out.println("012143");
+//        XTree xTree = buildXTree(n);
+//        xTree.print(xTree.root);
+        int i = 0;
+    }
+
+
+    /**
+     * 网上找的
+     * @param pos
+     * @param n
+     * @param open
+     * @param close
+     * @param buffer
+     */
     static void printParenthesis(int pos , int n , int open ,int close ,char[] buffer){
         //System.out.println("step"+pos+" open is : "+ open + "close is :" + close);
         //System.out.println(new String(buffer));
@@ -33,19 +56,6 @@ public class Parenthesis {
         }
 
     }
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
-        //System.out.println("012142");
-        int  n = 4;
-        char[] cs = new char[2 * n];
-        printParenthesis(0, n, 0, 0, cs);  //copy
-
-        //System.out.println("012143");
-//        XTree xTree = buildXTree(n);
-//        xTree.print(xTree.root);
-        int i = 0;
-    }
-
 
 
     static class Node{
@@ -154,6 +164,12 @@ public class Parenthesis {
 
     }
 
+
+    /**
+     * 自己构建了一个树形结构
+     * @param n
+     * @return
+     */
     public static XTree buildXTree(int n){
         return new XTree(n);
     }

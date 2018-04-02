@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  * @ClassName: Segment
- * @Description:  线段重叠，交集，并集，最大交集
+ * @Description:  线段重叠，交集，并集，最大交集（TODO没想好怎么玩）
  * @Author: zhaojt
  * @Date: 2018/3/10 10:16
  * Inc.All rights reserved.
