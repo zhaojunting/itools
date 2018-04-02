@@ -2,7 +2,7 @@ package java.lang;
 
 /**
  * @ClassName: String
- * @Description: (这里用一句话描述这个类的作用)
+ * @Description: (自定义String不会被加载)
  * @Author: zhaojt
  * @Date: 2018/3/29 20:57
  * Inc.All rights reserved.
