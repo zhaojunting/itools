@@ -1,2 +1,2 @@
 # itools
-练习
+[菜鸟教程](http://www.runoob.com/w3cnote/git-guide.html)
