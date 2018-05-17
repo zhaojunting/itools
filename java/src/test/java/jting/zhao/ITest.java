@@ -21,7 +21,7 @@ public class ITest {
     }
 
 
-    static abstract class NumberedTask implements Runnable{
+    protected static abstract class NumberedTask implements Runnable{
 
         private int id;
 

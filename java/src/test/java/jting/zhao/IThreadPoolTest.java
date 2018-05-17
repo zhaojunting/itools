@@ -23,8 +23,8 @@ public class IThreadPoolTest extends ITest{
 
                 //队列满了 线程池不再RUNNING
                 public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-                    if(r instanceof Task){
-                        LOGGER.info("rejected id = " + ((Task)r).getId());
+                    if(r instanceof NumberedTask){
+                        LOGGER.info("rejected id = " + ((NumberedTask)r).getId());
                     }
                 }
             }
