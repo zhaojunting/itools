@@ -11,6 +11,7 @@
     <modules>
         <module>java</module>
         <module>fsm</module>
+        <module>hystrix</module>
     </modules>
 
     <!-- 强制继承 -->
