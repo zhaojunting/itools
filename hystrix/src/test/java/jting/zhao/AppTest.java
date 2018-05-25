@@ -1,20 +1,30 @@
 package jting.zhao;
 
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-
 /**
  * Unit test for simple App.
  */
-public class AppTest 
-{
-    /**
-     * Rigorous Test :-)
-     */
-    @Test
-    public void shouldAnswerWithTrue()
-    {
-        assertTrue( true );
+public class AppTest {
+
+    public static void threadSleep(long millis){
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    protected static abstract class NumberedTask implements Runnable{
+
+        private int id;
+
+        public NumberedTask(int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
+
     }
 }
