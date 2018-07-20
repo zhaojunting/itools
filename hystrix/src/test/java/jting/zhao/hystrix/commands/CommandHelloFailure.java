@@ -23,7 +23,7 @@ public class CommandHelloFailure extends HystrixCommand<String> {
 
     @Override
     protected String run() {
-        Object result = new IRpcServiceA().query();
+        Object result = new IRpcServiceA().query("1");
         logger.info("get result = " + new Gson().toJson(result));
         throw new RuntimeException("this command always fails");
     }
