@@ -3,6 +3,7 @@ package jting.zhao.java.util.concurrent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -13,7 +14,9 @@ public class IThreadPoolExecutor extends ThreadPoolExecutor{
 
     private Logger LOGGER = LoggerFactory.getLogger(IThreadPoolExecutor.class);
 
-    private ScheduledExecutorService monitor ;
+    private String id;
+
+    private String ip;
 
     private String name;
 
@@ -52,9 +55,6 @@ public class IThreadPoolExecutor extends ThreadPoolExecutor{
 
     @Override
     protected void terminated() {
-        if(monitor != null && !monitor.isShutdown()){
-            monitor.shutdown();
-        }
         super.terminated();
         LOGGER.info(journal());
         LOGGER.info(getName() + " is terminated ");
@@ -69,6 +69,36 @@ public class IThreadPoolExecutor extends ThreadPoolExecutor{
         return this;
     }
 
+    class PoolInfo{
+        String id;
+        String ip;
+        String name;
+        int poolSize;       //当前线程数
+        int queueSize;      //队列大小
+        int activeCount;    //主动执行任务的线程数（近似）
+        long taskCount;     //计划执行任务总数（近似）
+        int corePoolSize;   //设置的核心线程数
+        int largestPoolSize;//曾经最大线程数（近似）
+        int maximumPoolSize;//允许最大线程数
+        long completedTaskCount;//已经完成任务总数（近似）
+        Date date;
+        int timestamp;
+
+        public PoolInfo() {
+            this.id = getId();
+            this.ip = getIp();
+            this.name = getName();
+            this.poolSize = getPoolSize();
+            this.queueSize = getQueue().size();
+            this.activeCount = getActiveCount();
+            this.taskCount = getTaskCount();
+            this.corePoolSize = getCorePoolSize();
+            this.largestPoolSize = getLargestPoolSize();
+            this.maximumPoolSize = getMaximumPoolSize();
+            this.completedTaskCount = getCompletedTaskCount();
+            this.date = new Date();
+        }
+    }
     public String journal(){
         StringBuilder journal = new StringBuilder();
         journal.append(getName());
@@ -84,18 +114,21 @@ public class IThreadPoolExecutor extends ThreadPoolExecutor{
     }
 
     public IThreadPoolExecutor setMonitorable(){
-        if(monitor != null){
-            return this;
-        }
-        monitor = Executors.newSingleThreadScheduledExecutor();
+//        if(monitor != null){
+//            return this;
+//        }
+//        monitor = Executors.newSingleThreadScheduledExecutor();
+//
+//        monitor.scheduleWithFixedDelay(new Runnable() {
+//
+//            @Override
+//            public void run() {
+////                LOGGER.info("Monitor[" + journal() + "]");
+//                OpenTSDBClient client = new OpenTSDBClient();
+//            }
+//        }, 500, 1500, TimeUnit.MILLISECONDS);
 
-        monitor.scheduleWithFixedDelay(new Runnable() {
-
-            @Override
-            public void run() {
-                LOGGER.info("Monitor[" + journal() + "]");
-            }
-        }, 500, 1500, TimeUnit.MILLISECONDS);
+        IThreadPoolMonitor.registerWithName(this);
 
         return this;
     }
@@ -111,5 +144,30 @@ public class IThreadPoolExecutor extends ThreadPoolExecutor{
         LOGGER.info(getName() + " finalize before !");
         super.finalize();
         LOGGER.info(getName() + " finalize over !");
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    public PoolInfo poolInfo(){
+        return new PoolInfo();
     }
 }

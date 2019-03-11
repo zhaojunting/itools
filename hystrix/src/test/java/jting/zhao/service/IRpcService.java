@@ -13,5 +13,7 @@ public interface IRpcService {
 
     void do2();
 
+    void exception();
+
     String name();
 }

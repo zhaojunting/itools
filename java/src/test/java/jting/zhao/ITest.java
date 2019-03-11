@@ -1,5 +1,6 @@
 package jting.zhao;
 
+import com.google.gson.Gson;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -36,5 +37,12 @@ public class ITest {
 
     }
 
+    public void log(Object object){
+        System.out.println(toJson(object));
+    }
+
+    public String toJson(Object object){
+        return new Gson().toJson(object);
+    }
 
 }

@@ -12,6 +12,7 @@
         <module>java</module>
         <module>fsm</module>
         <module>hystrix</module>
+        <module>opentsdb-client</module>
     </modules>
 
     <!-- 强制继承 -->
@@ -78,6 +79,12 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>21.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.2</version>
         </dependency>
 
     </dependencies>

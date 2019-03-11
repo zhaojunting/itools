@@ -1,5 +1,6 @@
 package jting.zhao;
 
+import com.google.gson.Gson;
 import jting.zhao.java.util.concurrent.IThreadFactory;
 import jting.zhao.java.util.concurrent.IThreadPoolExecutor;
 import org.slf4j.Logger;
@@ -15,20 +16,19 @@ public class IThreadPoolTest extends ITest{
     private static Logger LOGGER = LoggerFactory.getLogger(IThreadPoolTest.class);
 
     private static IThreadPoolExecutor pool = new IThreadPoolExecutor(
-            5, 10,
+            20, 40,
             1, TimeUnit.SECONDS,
-            new LinkedBlockingDeque<Runnable>(5),
+            new LinkedBlockingDeque<Runnable>(8000),
             new IThreadFactory(),
             new RejectedExecutionHandler() {
 
-                //队列满了 线程池不再RUNNING
                 public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
                     if(r instanceof NumberedTask){
                         LOGGER.info("rejected id = " + ((NumberedTask)r).getId());
                     }
                 }
             }
-    ).name("TestPoll-1").setMonitorable();//核心线程回收
+    ).name("TestPoll-1");//核心线程回收
 
 
     /**
@@ -39,7 +39,7 @@ public class IThreadPoolTest extends ITest{
             pool.execute(new Task(i));
         }
 
-        pool.shutdown();
+//        pool.shutdown();
 
         try {
             boolean awaitTermination = pool.awaitTermination(1, TimeUnit.SECONDS);
@@ -58,16 +58,15 @@ public class IThreadPoolTest extends ITest{
         }
     }
 
-    public void test2(){
+    public static void test2(){
         //初始化
         ThreadPoolExecutor pool2 = new IThreadPoolExecutor(
-                0, 10,
+                10, 20,
                 1, TimeUnit.SECONDS,
-                new LinkedBlockingDeque<Runnable>(200),
+                new LinkedBlockingDeque<Runnable>(100000),
                 new IThreadFactory(),
                 new RejectedExecutionHandler() {
 
-                    //队列满了 线程池不再RUNNING
                     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
                         if(r instanceof Task){
                             LOGGER.info("rejected id = " + ((Task)r).getId());
@@ -78,8 +77,12 @@ public class IThreadPoolTest extends ITest{
 
 
         //执行任务
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < 10000; i++){
             pool2.execute(new Task(i));
+        }
+
+        for (int i = 0; i < 10000; i++){
+            pool.execute(new Task(i));
         }
 
 //        pool2.shutdown();
@@ -105,10 +108,11 @@ public class IThreadPoolTest extends ITest{
     }
     public static void main(String[] args) {
 
-        test3();
-
-
+//        String[] split = "123456|ABCDEF".split("\\|");
+//        LOGGER.info(new Gson().toJson(split));
+        test1();
     }
+
 
 
     static class Task extends NumberedTask{
@@ -119,7 +123,7 @@ public class IThreadPoolTest extends ITest{
 
         public void run() {
             LOGGER.info("task " + getId() + " running ...");
-            threadSleep(1000);
+            threadSleep(800);
             LOGGER.info("task " + getId() + " over ...");
         }
     }

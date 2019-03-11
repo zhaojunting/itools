@@ -5,10 +5,7 @@ import jting.zhao.service.IRpcService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by zhaojunting1 on 2018/5/22
@@ -45,7 +42,21 @@ public class IRpcServiceA implements IRpcService {
 
     @Override
     public void do2() {
-        logger.info(name() + "do2 running!");
+//        Random random = new Random();
+//        int i = random.nextInt(10);
+//
+//        if(i > 3){
+//            logger.error(name() + "do2 running Exception!");
+//            throw new RuntimeException("do2 Exception !");
+//        }
+
+        logger.info(name() + " do2 running!");
+    }
+
+    @Override
+    public void exception() {
+        logger.info(name() + " exception running!");
+        throw new RuntimeException("IRpcServiceA exception running !");
     }
 
     @Override
